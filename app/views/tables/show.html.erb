@@ -1,0 +1,71 @@
+<%- model_class = Table -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %> <%= @table.number %></h1>
+</div>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              tables_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_table_path(@table), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              table_path(@table),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
+
+<div class="page-header"> <h2>Reservations</h2> </div>
+
+<% unless @table.reservations.empty? %>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th><%= Reservation.human_attribute_name(:start_time) %></th>
+      <th><%= Reservation.human_attribute_name(:end_time) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @table.reservations.each do |reservation| %>
+        <tr>
+          <td><%= reservation.start_time.strftime("%Y/%m/%d %H:%m") %></td>
+          <td><%= reservation.end_time.strftime("%Y/%m/%d %H:%m")  %></td>
+          <td>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_table_reservation_path(@table, reservation), :class => 'btn btn-mini' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        table_reservation_path(@table, reservation),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger' %>
+          </td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<div class="page-header"> <h3>Create new reservations</h3> </div>
+<%= form_for ([@table, @table.reservations.build]), :html => { :class => 'form-inline' } do |f| %>
+      <%= f.label :start_time, :class => 'control-label' %>
+      <div id="datetimepicker_start_time" class="controls">
+        <%= f.text_field :start_time, 'data-format'=>'yyyy-MM-dd HH:mm:ss' %>
+        <span class="add-on">
+          <i data-time-icon="icon-time" data-date-icon="icon-calendar"> </i>
+        </span>
+      </div>
+
+      <%= f.label :end_time, :class => 'control-label' %>
+      <div id="datetimepicker_end_time" class="controls">
+        <%= f.text_field :end_time, 'data-format'=>'yyyy-MM-dd HH:mm:ss' %>
+        <span class="add-on">
+          <i data-time-icon="icon-time" data-date-icon="icon-calendar"> </i>
+        </span>
+      </div>
+    <%= f.hidden_field :table_id, :class => 'text_field' %>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+    </div>
+<% end %>

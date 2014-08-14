@@ -6,4 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-#Reservation.all.destroy_all
+table = Table.create(number: 1)
+Reservation.create(start_time: Time.now, end_time: 1.hour.since, table: table)
+table = Table.create(number: 2)
+Reservation.create(start_time: Time.now, end_time: 1.hour.since, table: table)
