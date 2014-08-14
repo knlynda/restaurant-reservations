@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails',        '4.1.1'
 gem 'therubyracer'
-gem 'sqlite3'
+gem 'pg'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'bootstrap-datetimepicker-rails'
@@ -26,3 +26,4 @@ group :test do
 end
 
 gem 'rails_12factor'
+ruby '2.1.1'

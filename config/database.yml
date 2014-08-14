@@ -1,16 +1,18 @@
 default: &default
-  adapter: sqlite3
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
-  timeout: 5000
 
 development:
   <<: *default
-  database: db/reservations_development.sqlite3
+  database: reservations_development
 
 test:
   <<: *default
-  database: db/reservations_test.sqlite3
+  database: reservations_test
 
 production:
   <<: *default
-  database: db/reservations_production.sqlite3
+  database: reservations_production
