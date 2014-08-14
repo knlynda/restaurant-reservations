@@ -22,3 +22,5 @@ rake db:migrate
 rake db:test:prepare
 rspec
 ```
+## Demo
+http://floating-sands-5227.herokuapp.com/
