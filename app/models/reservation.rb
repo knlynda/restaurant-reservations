@@ -21,12 +21,12 @@ class Reservation < ActiveRecord::Base
   private
   def not_overbooking
     unless Reservation.by_table_id(table_id).without_self(id).overbooking(start_time, end_time).empty?
-      errors.add(:start_time, 'Invalid period.')
+      errors.add(:start_time, 'invalid period given')
     end
   end
 
   def start_time_less_than_end_time
-    unless start_time.blank? || end_time.blank? || start_time < end_time
+    if start_time && end_time && start_time >= end_time
       errors.add(:start_time, 'cannot be greater then end time')
     end
   end
