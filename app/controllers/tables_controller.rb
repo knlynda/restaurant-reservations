@@ -39,7 +39,7 @@ class TablesController < ApplicationController
     @table = Table.find(params[:id])
     @table.destroy
 
-    redirect_to table_path
+    redirect_to tables_path
   end
 
   def table_params
