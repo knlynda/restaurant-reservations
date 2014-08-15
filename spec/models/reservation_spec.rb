@@ -98,7 +98,8 @@ describe Reservation do
 
         it 'should not be valid rebooking same table in the same time with other reservation' do
           other_reservation = create(:reservation, table: reservation.table,
-                                     start_time: reservation.end_time, end_time: reservation.end_time.since(1.hour))
+                                     start_time: reservation.end_time.since(1.hour),
+                                     end_time: reservation.end_time.since(2.hours))
 
           reservation.start_time = other_reservation.start_time
           reservation.end_time = other_reservation.end_time
