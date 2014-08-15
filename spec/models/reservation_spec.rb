@@ -25,9 +25,23 @@ describe Reservation do
           expect(tested_reservation).to be_valid
         end
 
+        it 'should be valid booking the same table before existing reservation' do
+          tested_reservation.start_time = reservation.start_time.ago(2.hours)
+          tested_reservation.end_time = reservation.start_time.ago(1.hour)
+
+          expect(tested_reservation).to be_valid
+        end
+
         it 'should be valid booking the same table after existing reservation' do
           tested_reservation.start_time = reservation.end_time
           tested_reservation.end_time = reservation.end_time.since(1.hour)
+
+          expect(tested_reservation).to be_valid
+        end
+
+        it 'should be valid booking the same table after existing reservation' do
+          tested_reservation.start_time = reservation.end_time.since(1.hour)
+          tested_reservation.end_time = reservation.end_time.since(2.hours)
 
           expect(tested_reservation).to be_valid
         end
