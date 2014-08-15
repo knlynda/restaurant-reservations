@@ -48,45 +48,44 @@ describe Reservation do
           expect(tested_reservation).not_to be_valid
         end
 
-        it 'should not be valid booking the same table started and finished at existing reservation time' do
-          tested_reservation.start_time = reservation.start_time.since(10.minutes),
-              tested_reservation.end_time = reservation.end_time.ago(10.minutes)
+        it 'should not be valid booking the same table started and finished in time range of existing reservation' do
+          tested_reservation.start_time = reservation.start_time.since(10.minutes)
+          tested_reservation.end_time = reservation.end_time.ago(10.minutes)
 
           expect(tested_reservation).not_to be_valid
         end
 
-        it 'should not be valid booking the same table started before and finished at existing reservation time' do
-          tested_reservation.start_time = reservation.start_time.ago(10.minutes),
-              tested_reservation.end_time = reservation.start_time.since(10.minutes)
+        it 'should not be valid booking the same table started before and finished in time range of existing reservation' do
+          tested_reservation.start_time = reservation.start_time.ago(10.minutes)
+          tested_reservation.end_time = reservation.start_time.since(10.minutes)
 
           expect(tested_reservation).not_to be_valid
         end
 
-        it 'should not be valid booking the same table finished after but started at existing reservation time' do
-          tested_reservation.start_time = reservation.end_time.ago(10.minutes),
-              tested_reservation.end_time = reservation.end_time.since(10.minutes)
+        it 'should not be valid booking the same table finished after but started in time range of existing reservation' do
+          tested_reservation.start_time = reservation.end_time.ago(10.minutes)
+          tested_reservation.end_time = reservation.end_time.since(10.minutes)
 
           expect(tested_reservation).not_to be_valid
         end
 
         it 'should not be valid booking the same table started before and finished after existing reservation time' do
-          tested_reservation.start_time = reservation.start_time.ago(10.minutes),
-              tested_reservation.end_time = reservation.end_time.since(10.minutes)
+          tested_reservation.start_time = reservation.start_time.ago(10.minutes)
+          tested_reservation.end_time = reservation.end_time.since(10.minutes)
 
           expect(tested_reservation).not_to be_valid
         end
       end
 
       context 'on update' do
-        let(:other_reservation) { create(:reservation, table: reservation.table,
-                                         start_time: reservation.end_time,
-                                         end_time: reservation.end_time.since(1.hour)) }
-
         it 'should be valid rebooking the same table in the same time' do
           expect(reservation).to be_valid
         end
 
         it 'should not be valid rebooking same table in the same time with other reservation' do
+          other_reservation = create(:reservation, table: reservation.table,
+                                     start_time: reservation.end_time, end_time: reservation.end_time.since(1.hour))
+
           reservation.start_time = other_reservation.start_time
           reservation.end_time = other_reservation.end_time
 

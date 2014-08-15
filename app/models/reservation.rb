@@ -9,16 +9,18 @@ class Reservation < ActiveRecord::Base
   validate :not_overbooking
 
   scope :by_table_id, -> (table_id) { where(table_id: table_id) }
-  scope :without, -> (id) { where(':id is NULL OR id <> :id', id: id) }
+  scope :without_self, ->(id) {where('id !=?', id) if id}
 
   scope :overbooking, -> (start_time, end_time) {
-    where('(start_time <= :start_time AND end_time >= :end_time) OR (start_time >= :start_time AND end_time <= :end_time)',
+    where('(start_time <= :start_time AND end_time > :start_time)
+            OR (start_time < :end_time AND end_time >= :end_time)
+            OR (start_time > :start_time AND end_time < :end_time)',
       start_time: start_time, end_time: end_time)
   }
 
   private
   def not_overbooking
-    unless Reservation.by_table_id(table_id).without(id).overbooking(start_time, end_time).empty?
+    unless Reservation.by_table_id(table_id).without_self(id).overbooking(start_time, end_time).empty?
       errors.add(:start_time, 'Invalid period.')
     end
   end
