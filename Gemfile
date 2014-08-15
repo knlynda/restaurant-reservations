@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails',        '4.1.1'
 gem 'therubyracer'
-gem 'pg'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'bootstrap-datetimepicker-rails'
@@ -13,8 +12,14 @@ gem 'turbolinks'
 gem 'jbuilder',     '~> 2.0'
 gem 'sdoc',         '~> 0.4.0', group: :doc
 
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
+
 group :test, :development do
   gem 'debugger'
+  gem 'sqlite3'
 end
 
 group :test do
@@ -25,5 +30,4 @@ group :test do
   gem 'spork', '~> 1.0rc'
 end
 
-gem 'rails_12factor'
 ruby '2.1.1'
