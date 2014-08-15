@@ -1,8 +1,12 @@
 class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new(reservation_params)
-    @reservation.save
-    redirect_to table_path(@reservation.table)
+    if @reservation.save
+      redirect_to table_path(@reservation.table)
+    else
+      @table = @reservation.table
+      render 'tables/show'
+    end
   end
 
   def edit
@@ -15,7 +19,7 @@ class ReservationsController < ApplicationController
     if @reservation.update(reservation_params)
       redirect_to table_path @reservation.table
     else
-      redirect_to edit_table_reservation_path(@reservation.table, @reservation)
+      render 'edit'
     end
   end
 

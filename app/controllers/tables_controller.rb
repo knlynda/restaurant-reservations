@@ -17,7 +17,7 @@ class TablesController < ApplicationController
     if @table.save
       redirect_to tables_path
     else
-      redirect_to new_table_path
+      render 'new'
     end
   end
 
@@ -31,7 +31,7 @@ class TablesController < ApplicationController
     if @table.update(table_params)
       redirect_to tables_path
     else
-      redirect_to edit_table_path(@table)
+      render 'edit'
     end
   end
 

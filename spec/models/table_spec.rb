@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Table do
-  it { should have_one(:reservation) }
+  it { should have_many(:reservations) }
 
   context 'validation' do
     it { should validate_presence_of(:number) }
