@@ -29,8 +29,8 @@
     <tbody>
     <% @table.reservations.each do |reservation| %>
         <tr>
-          <td><%= reservation.start_time.strftime("%Y/%m/%d %H:%m") %></td>
-          <td><%= reservation.end_time.strftime("%Y/%m/%d %H:%m")  %></td>
+          <td><%= reservation.start_time.strftime("%Y/%m/%d %H:%M") %></td>
+          <td><%= reservation.end_time.strftime("%Y/%m/%d %H:%M")  %></td>
           <td>
             <%= link_to t('.edit', :default => t("helpers.links.edit")),
                         edit_table_reservation_path(@table, reservation), :class => 'btn btn-mini' %>
